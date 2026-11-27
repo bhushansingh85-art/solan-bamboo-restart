@@ -1,0 +1,5 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { products } from "@/data/products";
+export function generateStaticParams(){return products.map(p=>({slug:p.slug}));}
+export default async function ProductPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const p=products.find(x=>x.slug===slug);if(!p)notFound();return <main className="container section"><Link href="/shop" className="text-sm font-bold text-bamboo-700">← Back to shop</Link><div className="mt-8 grid gap-10 md:grid-cols-2"><div className="flex min-h-80 items-center justify-center rounded-3xl bg-[#edf0e4] text-8xl">🎋</div><div><div className="eyebrow">{p.category}</div><h1 className="mt-3 text-4xl font-semibold">{p.name}</h1><p className="muted mt-5">{p.description}</p><p className="mt-6 text-lg font-semibold">{p.priceLabel}</p><p className="muted mt-3 text-sm">Ask us to confirm current availability, dimensions, material details, finish, delivery and final price.</p><Link href="/contact" className="btn mt-7">Enquire about this product</Link></div></div></main>}
